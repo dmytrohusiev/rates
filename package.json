@@ -8,8 +8,8 @@
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
-    "start": "nest start",
-    "start:dev": "concurrently \"yarn graphql-gen\" \"nest start --watch\"",
+    "start": "yarn typeorm:run && nest start",
+    "start:dev": "clear && yarn typeorm:run && NODE_ENV=development && concurrently \"yarn graphql-gen\" \"nest start --watch\"",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
     "graphql-gen": "ts-node generate-typings",
@@ -18,7 +18,14 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "typeorm": "ts-node ./node_modules/typeorm/cli",
+    "typeorm:run":"npm run typeorm migration:run -- -d ./src/config/typeOrm.config.ts",
+    "typeorm:run-migrations": "concurrently \"yarn pg:port-forward\" \"yarn typeorm:run\"",
+    "typeorm:generate-migration": "concurrently \"yarn pg:port-forward\" \"npm run typeorm -- -d ./src/config/typeOrm.config.ts migration:generate ./migrations/$npm_config_name\"",
+    "typeorm:create-migration": "concurrently \"yarn pg:port-forward\" \"npm run typeorm -- migration:create ./migrations/$npm_config_name\"",
+    "typeorm:revert-migration": "concurrently \"yarn pg:port-forward\" \"npm run typeorm -- -d ./src/config/typeOrm.config.ts migration:revert\"",
+    "pg:port-forward":"kubectl port-forward $(kubectl get pods | grep postgres | awk '{print $1}') 5432:5432"
   },
   "dependencies": {
     "@apollo/server": "^4.9.3",

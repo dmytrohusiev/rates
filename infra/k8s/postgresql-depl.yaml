@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: postgresql-depl
+  name: postgres-depl
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: postgresql
+      app: postgres
   template:
     metadata:
       labels:
-        app: postgresql
+        app: postgres
     spec:
       containers:
-      - name: postgresql
+      - name: postgres
         image: postgres:12.16
         env:
           - name: POSTGRES_PASSWORD
@@ -21,16 +21,28 @@ spec:
               secretKeyRef:
                 name: app-secret
                 key: POSTGRES_PASSWORD
+          - name: POSTGRES_USER
+            valueFrom:
+              secretKeyRef:
+                name: app-secret
+                key: POSTGRES_USER
+          - name: POSTGRES_DB
+            valueFrom:
+              secretKeyRef:
+                name: app-secret
+                key: POSTGRES_DB
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: postgresql-srv
+  name: postgres-srv
 spec:
   selector:
-    app: postgresql
+    app: postgres
+  type: ClusterIP
   ports:
-    - name: db
+    - name: postgres-srv
       protocol: TCP
-      port: 8080
-      targetPort: 8080
+      port: 5432
+      targetPort: 5432
+

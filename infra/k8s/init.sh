@@ -31,8 +31,7 @@ echo "Adding env vars to the Kubernetes secrets"
 if [[ $(kubectl get secrets | grep app-secret) ]]; then
     echo "skipping secrets setup"
 else
-    read -sp "Your new DB password: " db_password
-    kubectl create secret generic app-secret --from-literal=POSTGRES_PASSWORD=$db_password
+    kubectl create secret generic app-secret --from-literal=POSTGRES_PASSWORD=test --from-literal=POSTGRES_USER=root --from-literal=POSTGRES_DB=test --from-literal=NODE_ENV=development --from-literal=POSTGRES_HOST=postgres-srv
 fi
 echo "########################################################"
 echo

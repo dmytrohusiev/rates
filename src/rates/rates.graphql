@@ -1,0 +1,19 @@
+scalar Date
+
+type Query {
+  currentRate: Rate!
+  rates(dateStart: Date!, dateEnd: Date!): [Rate!]!
+}
+
+type CurrencySymbol {
+    id: ID!
+    name: String!
+}
+
+type Rate {
+  id: ID!
+  date: Date!
+  price: Float!
+  symbol1: CurrencySymbol!
+  symbol2: CurrencySymbol!
+}
