@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rates-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rates
+  template:
+    metadata:
+      labels:
+        app: rates
+    spec:
+      containers:
+        - name: rates
+          image: husievdmytro/rates
+          env:
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: POSTGRES_PASSWORD
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: rates-srv
+spec:
+  selector:
+    app: rates
+  type: ClusterIP
+  ports:
+  - name: rates
+    protocol: TCP
+    port: 3000
+    targetPort: 3000
