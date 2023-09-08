@@ -7,5 +7,9 @@ export default () => ({
     password: process.env.POSTGRES_PASSWORD,
     database: process.env.POSTGRES_DB || 'test',
     username: process.env.POSTGRES_USER || 'root'
+  },
+  cryptoApi: {
+    lastPrice: 'https://cex.io/api/last_price',
+    chart: 'https://cex.io/api/price_stats'
   }
 });

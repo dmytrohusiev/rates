@@ -1,12 +1,9 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn } from 'typeorm';
+import { Entity, Column, CreateDateColumn, PrimaryColumn } from 'typeorm';
 
 @Entity()
-export class Symbol {
-  @PrimaryGeneratedColumn('uuid')
-  id: number;
-
-  @Column({ length: 10, nullable: false, unique: true })
-  name: string;
+export class CurrencySymbol {
+  @PrimaryColumn()
+  id: string;
 
   @Column('boolean', { default: true, nullable: false })
   isActive: boolean;
