@@ -2,14 +2,16 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
+import { ScheduleModule } from '@nestjs/schedule';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { RatesModule } from './rates/rates.module';
 import configuration from './config/configuration';
 import { DateScalar } from './common/scalars/date.scalar';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Rate } from './rates/rate.entity';
-import { Symbol } from './rates/symbol/symbol.entity';
+import { Rates } from './rates/rates.entity';
+import { CurrencySymbol } from './rates/symbol/symbol.entity';
+import { TasksModule } from './rates/tasks/tasks.module';
 
 @Module({
   imports: [
@@ -24,8 +26,9 @@ import { Symbol } from './rates/symbol/symbol.entity';
           username: configService.get('db.username'),
           password: configService.get('db.password'),
           database: configService.get('db.database'),
-          entities: [Symbol, Rate],
-          synchronize: configService.get('isDev')
+          entities: [CurrencySymbol, Rates],
+          synchronize: configService.get('isDev'),
+          logging: true
         };
       },
       inject: [ConfigService]
@@ -34,6 +37,8 @@ import { Symbol } from './rates/symbol/symbol.entity';
       driver: ApolloDriver,
       typePaths: ['./**/*.graphql']
     }),
+    ScheduleModule.forRoot(),
+    TasksModule,
     RatesModule
   ],
   controllers: [AppController],
