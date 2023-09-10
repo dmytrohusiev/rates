@@ -18,4 +18,3 @@ export class RatesService {
     return this.ratesRepository.findOne({ order: { date: -1 }, where: { symbol1: 'BTC', symbol2: 'USDT' } });
   }
 }
-
