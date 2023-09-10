@@ -12,6 +12,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Rates } from './rates/rates.entity';
 import { CurrencySymbol } from './rates/symbol/symbol.entity';
 import { TasksModule } from './rates/tasks/tasks.module';
+import { join } from 'path';
 
 @Module({
   imports: [
@@ -35,7 +36,12 @@ import { TasksModule } from './rates/tasks/tasks.module';
     }),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
-      typePaths: ['./**/*.graphql']
+      typePaths: ['./**/*.graphql'],
+      definitions: {
+        path: join(process.cwd(), 'src/graphql.ts'),
+        outputAs: 'class',
+        emitTypenameField: true
+      }
     }),
     ScheduleModule.forRoot(),
     TasksModule,

@@ -15,19 +15,13 @@ export abstract class IQuery {
   abstract rates(dateStart: Date, dateEnd: Date): Rate[] | Promise<Rate[]>;
 }
 
-export class CurrencySymbol {
-  __typename?: 'CurrencySymbol';
-  id: string;
-  name: string;
-}
-
 export class Rate {
   __typename?: 'Rate';
   id: string;
   date: Date;
   price: number;
-  symbol1: CurrencySymbol;
-  symbol2: CurrencySymbol;
+  symbol1: string;
+  symbol2: string;
 }
 
 type Nullable<T> = T | null;
