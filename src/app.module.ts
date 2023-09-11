@@ -28,8 +28,7 @@ import { join } from 'path';
           password: configService.get('db.password'),
           database: configService.get('db.database'),
           entities: [CurrencySymbol, Rates],
-          synchronize: configService.get('isDev'),
-          logging: true
+          synchronize: configService.get('isDev')
         };
       },
       inject: [ConfigService]

@@ -27,7 +27,6 @@ export class TasksService {
     private configService: ConfigService
   ) {}
 
-  //   @Cron(CronExpression.EVERY_30_SECONDS)
   @Cron(CronExpression.EVERY_HOUR)
   async handleCron() {
     this.logger.debug('rates cron has been called');

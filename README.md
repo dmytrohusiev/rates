@@ -23,14 +23,37 @@ $ kubectl version --output=yaml
 ```bash
 $ yarn install
 ```
-### 8. Initialize your local infrastructure in the Kubernetes cluster:
+### 8. Initialize your local infrastructure in the Kubernetes cluster and start the app:
 ```bash
 $ skaffold dev
 ```
 
-port-forward 
-```bash 
-k port-forward $(k get pods | grep rates-depl | awk '{print $1}') 3000:3000
+### 9 Navigate to the [rates.dev/graphql](https://rates.dev/graphql) to test the graphql queries
+```gql
+query CurrentRate {
+  currentRate{
+    id
+    date
+    price
+    symbol1
+    symbol2
+  }
+}
+
+query Rates($dateStart:Date!, $dateEnd: Date!){
+  rates(dateStart:$dateStart, dateEnd: $dateEnd){
+    id
+    date
+    price
+    symbol1
+    symbol2
+  }
+}
+```
+
+## Cleanup after assignment check
+```bash
+$ bash ./infra/k8s/cleanup.sh
 ```
 
 ## Running the app
@@ -59,10 +82,7 @@ $ yarn run test:e2e
 $ yarn run test:cov
 ```
 
-## Cleanup after assignment check
-```bash
-$ bash ./infra/k8s/cleanup.sh
-```
+
 ## Support
 
 Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).

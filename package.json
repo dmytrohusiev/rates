@@ -8,7 +8,7 @@
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
-    "start": "yarn typeorm:run && nest start",
+    "start": "NODE_ENV=development && yarn typeorm:run && nest start",
     "start:dev": "clear && yarn typeorm:run && NODE_ENV=development && concurrently \"yarn graphql-gen\" \"nest start --watch\"",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
