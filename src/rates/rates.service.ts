@@ -11,7 +11,7 @@ export class RatesService {
   ) {}
 
   findAll(dateStart: Date, dateEnd: Date) {
-    return this.ratesRepository.find({ where: { date: Between(dateStart, dateEnd) }, order: { date: -1 } });
+    return this.ratesRepository.find({ where: { date: Between(dateStart, dateEnd),symbol1: 'BTC', symbol2: 'USDT' }, order: { date: -1 } });
   }
 
   findOne() {
